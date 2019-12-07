@@ -5,7 +5,6 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
@@ -17,17 +16,30 @@ module.exports = {
     },
     optimization: {
         minimizer: [
-            new OptimizeCssAssetsPlugin({})
+            new OptimizeCssAssetsPlugin({
+                assetNameRegExp: /\.css$/g,
+                cssProcessor: require('cssnano'),
+                cssProcessorPluginOptions: {
+                    preset: ['default', { discardComments: { removeAll: true } }],
+                },
+                canPrint: true
+            })
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: './src/index.html'
+            template: './src/index.html',
+            // Options for minification
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true
+            }
         }),
         new MiniCssExtractPlugin ({
             filename: 'style.css'
         }),
+        // Babel minify webpack plugin
         new MinifyPlugin()
     ],
     module: {
