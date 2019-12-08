@@ -1,8 +1,8 @@
-const path = require('path')
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
+const BabelMinifyPlugin = require('babel-minify-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -30,7 +30,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './src/index.html',
-            // Options for minification
+            // Options for minification from minify html
             minify: {
                 removeComments: true,
                 collapseWhitespace: true
@@ -40,7 +40,7 @@ module.exports = {
             filename: 'style.css'
         }),
         // Babel minify webpack plugin
-        new MinifyPlugin()
+        new BabelMinifyPlugin()
     ],
     module: {
         rules: [
